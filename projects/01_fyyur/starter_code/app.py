@@ -444,18 +444,17 @@ def create_artist_submission():
 
 @app.route('/shows')
 def shows():
-
-  shows_query = db.session.query(Show).join(Artist).join(Venue).all()
+  shows = Show.query.all()
 
   data = []
-  for show in shows_query: 
+  for show in shows: 
     data.append({
       "venue_id": show.venue_id,
       "venue_name": show.venue.name,
       "artist_id": show.artist_id,
       "artist_name": show.artist.name, 
       "artist_image_link": show.artist.image_link,
-      "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+      "start_time": str(show.start_time)
     })
 
   return render_template('pages/shows.html', shows=data)
@@ -472,9 +471,6 @@ def create_show_submission():
     artist_id = request.form['artist_id']
     venue_id = request.form['venue_id']
     start_time = request.form['start_time']
-
-    print(request.form)
-
     show = Show(artist_id=artist_id, venue_id=venue_id, start_time=start_time)
     db.session.add(show)
     db.session.commit()
@@ -485,7 +481,7 @@ def create_show_submission():
   finally: 
     db.session.close()
   if error: 
-    flash('An error occurred. Show could not be listed.')
+    flash('An error occurred.')
   if not error: 
     flash('Show was successfully listed')
   return render_template('pages/home.html')
