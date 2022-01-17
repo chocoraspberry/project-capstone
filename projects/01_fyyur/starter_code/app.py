@@ -61,32 +61,25 @@ def index():
 def venues():
   # TODO: replace with real venues data.
   #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
-  venues = Venue.query.all()
-  states = []
-  citys = []
-  for venue in venues:
-    states.append(venue.state)
-    citys.append(venue.city)
+  areas = Venue.query.distinct(Venue.state, Venue.city).all() 
 
-  data = []
-  for state in states:
-    for city in citys:
-      venues = Venue.query.filter_by(state=state).filter_by(city=city).all()
-      venues_data =[]
-      for venue in venues:
-        upcoming_shows = Show.query.filter_by(venue_id=venue.id).filter(Show.start_time > datetime.today()).all()
-        venues_data.append({
-          "id": venue.id,
-          "name": venue.name,
-          "num_upcoming_shows": len(upcoming_shows),
-        })
-      if bool(venues_data):
-        data.append({
-          "city": city,
-          "state": state,
-          "venues": venues_data
+  data =[]
+  for area in areas:
+    venues = Venue.query.filter_by(state=area.state).filter_by(city=area.city).all()
+    venues_data =[]
+    for venue in venues:
+      upcoming_shows = Show.query.filter_by(venue_id=venue.id).filter(Show.start_time > datetime.today()).all()
+      venues_data.append({
+        "id": venue.id,
+        "name": venue.name,
+        "num_upcoming_shows": len(upcoming_shows),
       })
-
+    data.append({
+      "city": area.city,
+      "state": area.state,
+      "venues": venues_data
+    })
+ 
   return render_template('pages/venues.html', areas=data)
 
 @app.route('/venues/search', methods=['POST'])
@@ -175,7 +168,7 @@ def create_venue_form():
 def create_venue_submission():
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
-  form = VenueForm()
+  form = VenueForm(meta={'csrf':False})
   if form.validate():
     try:
       venue = Venue(name=form.name.data, city=form.city.data, state=form.state.data, 
@@ -191,7 +184,7 @@ def create_venue_submission():
       flash('An error occurred. Venue ' + form.name.data + ' could not be listed.')
     finally: 
       db.session.close()
-  
+    
   return render_template('pages/home.html')
 
 @app.route('/venues/<venue_id>', methods=['DELETE'])
@@ -318,7 +311,7 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
   # TODO: take values from the form submitted, and update existing
   # artist record with ID <artist_id> using the new attributes
-  form = ArtistForm()
+  form = ArtistForm(meta={'csrf':False})
   item = Artist.query.get(artist_id)
   if form.validate():
     try:
@@ -368,7 +361,7 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
   # venue record with ID <venue_id> using the new attributes
-  form = VenueForm()
+  form = VenueForm(meta={'csrf':False})
   item = Venue.query.get(venue_id)
   if form.validate():
     try:
@@ -404,7 +397,7 @@ def create_artist_submission():
   # called upon submitting the new artist listing form
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
-  form = ArtistForm()
+  form = ArtistForm(meta={'csrf':False})
   if form.validate():
     try:
       artist = Artist(name=form.name.data, city=form.city.data, state=form.state.data, 
