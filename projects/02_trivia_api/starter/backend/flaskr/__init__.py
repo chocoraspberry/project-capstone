@@ -90,8 +90,8 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'questions': current_questions,
-            'totalQuestions': len(Question.query.all()),
-            'currentCategory': None,
+            'total_questions': len(Question.query.all()),
+            'current_category': None,
             'categories': retrieve_categories(),
         })
 
@@ -171,8 +171,8 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'questions': current_questions,
-            'totalQuestions': len(selection),
-            'currentCategory': None,
+            'total_questions': len(selection),
+            'current_category': None,
         })
 
 # curl -d '{"searchTerm":"the"}' -H "Content-Type: application/json" -X POST  http://localhost:5000/questions/search
@@ -200,8 +200,8 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'questions': current_questions,
-            'totalQuestions': len(selection),
-            'currentCategory': category.type,
+            'total_questions': len(selection),
+            'current_category': category.type,
         })
 
 
