@@ -87,7 +87,7 @@ Developers should have python 3.7, pip and node installled on local machines.
       "5": "Entertainment", 
       "6": "Sports"
     }, 
-    "currentCategory": null, 
+    "current_category": null, 
     "questions": [
       {
         "answer": "Apollo 13", 
@@ -161,7 +161,7 @@ Developers should have python 3.7, pip and node installled on local machines.
       }
     ], 
     "success": true, 
-    "totalQuestions": 19
+    "total_questions": 19
     }
    
   3. **DELETE /questions/{question_id}**
@@ -192,7 +192,7 @@ Developers should have python 3.7, pip and node installled on local machines.
    [Sample_has_results] curl -d '{"searchTerm":"the"}' -H "Content-Type: application/json" -X POST  http://localhost:5000/questions/search
    
     {
-    "currentCategory": null, 
+    "current_category": null, 
     "questions": [
       {
         "answer": "Maya Angelou", 
@@ -266,7 +266,7 @@ Developers should have python 3.7, pip and node installled on local machines.
       }
     ], 
     "success": true, 
-    "totalQuestions": 11
+    "total_questions": 11
     }
     
   [Sample_no_result] curl -d '{"searchTerm":"fyyur"}' -H "Content-Type: application/json" -X POST  http://localhost:5000/questions/search
@@ -285,7 +285,7 @@ Developers should have python 3.7, pip and node installled on local machines.
   [Sample] curl http://localhost:5000/categories/3/questions
   
     {
-    "currentCategory": "Geography", 
+    "current_category": "Geography", 
     "questions": [
       {
         "answer": "Lake Victoria", 
@@ -310,7 +310,7 @@ Developers should have python 3.7, pip and node installled on local machines.
       }
     ], 
     "success": true, 
-    "totalQuestions": 3
+    "total_questions": 3
     }
 
   7. **POST /quizzes**
