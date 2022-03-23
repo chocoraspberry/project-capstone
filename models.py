@@ -3,6 +3,8 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, create_engine
 import json
+from flask_migrate import Migrate
+
 
 database_path = os.environ['DATABASE_URL']
 # DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')

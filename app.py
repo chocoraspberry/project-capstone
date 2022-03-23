@@ -4,8 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_cors import CORS
 import json
-from models import setup_db, Movie, Actor
+from models import setup_db, Movie, Actor, db
 from auth import AuthError, requires_auth
+from flask_migrate import Migrate
 
 ITEM_PER_PAGE = 10
 
@@ -220,6 +221,7 @@ def create_app(test_config=None):
 
 
 app = create_app()
+migrate = Migrate(app, db)
 
 if __name__ == '__main__':
     # APP.run(host='0.0.0.0', port=8080, debug=True)
