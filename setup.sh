@@ -1,3 +1,5 @@
+export DATABASE_URL='postgresql://liangsuwei@localhost:5432/casting'
+export EXCITED="true"
 export AUTH0_DOMAIN='u-casting.us.auth0.com'
 export ALGORITHMS=['RS256']
 export API_AUDIENCE='http://localhost:5000'
